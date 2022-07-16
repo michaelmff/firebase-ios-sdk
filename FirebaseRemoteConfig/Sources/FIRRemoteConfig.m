@@ -186,7 +186,7 @@ static NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, FIRRemote
 - (void)ensureInitializedWithCompletionHandler:
     (nonnull FIRRemoteConfigInitializationCompletion)completionHandler {
   __weak FIRRemoteConfig *weakSelf = self;
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+  dispatch_async(dispatch_get_main_queue(), ^{
     FIRRemoteConfig *strongSelf = weakSelf;
     if (!strongSelf) {
       return;
@@ -290,7 +290,7 @@ typedef void (^FIRRemoteConfigActivateChangeCompletion)(BOOL changed, NSError *_
                                            code:FIRRemoteConfigErrorInternalError
                                        userInfo:@{@"ActivationFailureReason" : @"Internal Error."}];
       if (completion) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
           completion(NO, error);
         });
       }
@@ -304,7 +304,7 @@ typedef void (^FIRRemoteConfigActivateChangeCompletion)(BOOL changed, NSError *_
       FIRLogDebug(kFIRLoggerRemoteConfig, @"I-RCN000069",
                   @"Most recently fetched config is already activated.");
       if (completion) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
           completion(NO, nil);
         });
       }
@@ -323,14 +323,14 @@ typedef void (^FIRRemoteConfigActivateChangeCompletion)(BOOL changed, NSError *_
     if ([namespace isEqualToString:FIRNamespaceGoogleMobilePlatform]) {
       [strongSelf->_configExperiment updateExperimentsWithHandler:^(NSError *_Nullable error) {
         if (completion) {
-          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+          dispatch_async(dispatch_get_main_queue(), ^{
             completion(YES, nil);
           });
         }
       }];
     } else {
       if (completion) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
           completion(YES, nil);
         });
       }
