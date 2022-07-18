@@ -215,7 +215,6 @@ static NSArray *RemoteConfigMetadataTableColumnsInOrder() {
       return;
     }
     int flags = SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE |
-                SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION |
                 SQLITE_OPEN_FULLMUTEX;
     if (sqlite3_open_v2(databasePath, &strongSelf->_database, flags, NULL) == SQLITE_OK) {
       // Always try to create table if not exists for backward compatibility.
